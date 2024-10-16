@@ -1,0 +1,48 @@
+<!-- templates/select_graph.html -->
+
+{% extends "base.html" %}
+
+{% block content %}
+<h1 class="mt-5">Select Graph Options</h1>
+<form method="POST">
+    <div class="form-group">
+        <label for="template">Select Graph Template:</label>
+        <!-- Hardcoded options to test -->
+        <select name="template" id="template" class="form-control">
+            <option value="mean_cleanliness">Mean Cleanliness Over Time</option>
+            <option value="cleaning_by_hospital">Cleaning by Hospital</option>
+            <option value="cleaning_by_zone">Cleaning by Zone</option>
+            <option value="cleaning_by_zone_and_room_type">Cleaning by Zone and Room Type</option>
+            <option value="cleaning_by_elements_per_quarter">Cleaning by Elements per Quarter</option>
+            <option value="cleaning_by_hospital_unit">Cleaning by Hospital Unit</option>
+            <!-- You can add more options as needed -->
+        </select>
+    </div>
+
+    <!-- Time Aggregation -->
+    <div class="form-group">
+        <label for="time_aggregation">Time Aggregation:</label>
+        <select name="time_aggregation" id="time_aggregation" class="form-control">
+            <option value="monthly">Monthly</option>
+            <option value="quarterly">Quarterly</option>
+        </select>
+    </div>
+
+    <!-- Graph Type -->
+    <div class="form-group">
+        <label for="graph_type">Graph Type:</label>
+        <select name="graph_type" id="graph_type" class="form-control">
+            <option value="Line Chart">Line Chart</option>
+            <option value="Bar Chart">Bar Chart</option>
+        </select>
+    </div>
+
+    <!-- Show Numbers -->
+    <div class="form-group form-check">
+        <input type="checkbox" class="form-check-input" id="show_numbers" name="show_numbers">
+        <label class="form-check-label" for="show_numbers">Show Numbers on Graph</label>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Generate Graph</button>
+</form>
+{% endblock %}

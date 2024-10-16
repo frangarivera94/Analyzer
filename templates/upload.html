@@ -1,0 +1,14 @@
+<!-- templates/upload.html -->
+
+{% extends "base.html" %}
+
+{% block content %}
+<h1 class="mt-5">Upload Data Files</h1>
+<form method="POST" enctype="multipart/form-data">
+    <div class="form-group">
+        <label for="files">Select Excel files (elementos and aseos):</label>
+        <input type="file" class="form-control-file" id="files" name="files[]" multiple required>
+    </div>
+    <button type="submit" class="btn btn-primary">Upload and Continue</button>
+</form>
+{% endblock %}

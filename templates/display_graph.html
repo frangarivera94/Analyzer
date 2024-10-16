@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generated Graph</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+    <div class="graph-container">
+        <h2>Generated Graph</h2>
+        <div id="graph">
+            {{ graph_html | safe }}
+        </div>
+        <form action="{{ url_for('toggle_numbers') }}" method="POST">
+            <input type="hidden" name="template" value="{{ request.form.get('template') }}">
+            <input type="hidden" name="time_aggregation" value="{{ request.form.get('time_aggregation', 'monthly') }}">
+            <input type="hidden" name="graph_type" value="{{ request.form.get('graph_type', 'Line Chart') }}">
+            <input type="hidden" name="show_numbers" value="{{ not show_numbers }}">
+            <label for="color_palette">Color Palette:</label>
+            <select name="color_palette">
+                <option value="Plotly" {% if color_palette == 'Plotly' %}selected{% endif %}>Plotly</option>
+                <option value="Viridis" {% if color_palette == 'Viridis' %}selected{% endif %}>Viridis</option>
+                <option value="Cividis" {% if color_palette == 'Cividis' %}selected{% endif %}>Cividis</option>
+                <option value="Pastel" {% if color_palette == 'Pastel' %}selected{% endif %}>Pastel</option>
+                <option value="Dark" {% if color_palette == 'Dark' %}selected{% endif %}>Dark</option>
+                <option value="Bold" {% if color_palette == 'Bold' %}selected{% endif %}>Bold</option>
+            </select>
+            <button type="submit">
+                {% if show_numbers %}
+                    Hide Numbers on Graph
+                {% else %}
+                    Show Numbers on Graph
+                {% endif %}
+            </button>
+        </form>
+        <a href="{{ url_for('select_graph') }}">
+            <button>Create Another Graph</button>
+        </a>
+    </div>
+</body>
+</html>
