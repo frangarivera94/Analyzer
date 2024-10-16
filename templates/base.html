@@ -1,14 +1,14 @@
 <!-- templates/base.html -->
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>{{ title if title else "Hospital Analyzer" }}</title>
+    <title>{{ title if title else "Analizador de Hospitales" }}</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
-    <!-- Include Bootstrap CSS -->
+    <!-- Incluir CSS de Bootstrap -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <!-- Include additional CSS or JS here -->
+    <!-- Incluir CSS o JS adicionales aquí -->
     {% block head %}{% endblock %}
 </head>
 <body>
@@ -16,10 +16,10 @@
         {% block content %}
         {% endblock %}
     </div>
-    <!-- Include jQuery and Bootstrap JS -->
+    <!-- Incluir jQuery y Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <!-- Include additional scripts -->
+    <!-- Incluir scripts adicionales -->
     {% block scripts %}{% endblock %}
 </body>
 </html>

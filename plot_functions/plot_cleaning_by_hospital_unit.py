@@ -14,7 +14,7 @@ COLOR_PALETTES = {
 def plot_cleaning_by_hospital_unit(elementos_df, aseos_df, time_aggregation='monthly', graph_type='Bar Chart', show_numbers=False, color_palette='Plotly'):
     # Ensure 'UNIDAD HOSP.' column exists
     if 'UNIDAD HOSP.' not in elementos_df.columns or 'UNIDAD HOSP.' not in aseos_df.columns:
-        return "<p>Error: 'UNIDAD HOSP.' column not found in data.</p>"
+        return "<p>Error: Columna 'UNIDAD HOSP.' no encontrada en los datos.</p>"
 
     # Convert 'FECHAHORA' to datetime
     elementos_df['FECHAHORA'] = pd.to_datetime(elementos_df['FECHAHORA'], errors='coerce')
@@ -28,20 +28,20 @@ def plot_cleaning_by_hospital_unit(elementos_df, aseos_df, time_aggregation='mon
     elementos_df['UNIDAD HOSP.'] = elementos_df.loc[:, 'UNIDAD HOSP.'].astype(str)
     aseos_df['UNIDAD HOSP.'] = aseos_df.loc[:, 'UNIDAD HOSP.'].astype(str)
 
-    # Create 'Period' column based on time aggregation
+    # Create 'Periodo' column based on time aggregation
     if time_aggregation == 'monthly':
-        elementos_df['Period'] = elementos_df['FECHAHORA'].dt.to_period('M').astype(str)
-        aseos_df['Period'] = aseos_df['FECHAHORA'].dt.to_period('M').astype(str)
+        elementos_df['Periodo'] = elementos_df['FECHAHORA'].dt.to_period('M').astype(str)
+        aseos_df['Periodo'] = aseos_df['FECHAHORA'].dt.to_period('M').astype(str)
     elif time_aggregation == 'quarterly':
-        elementos_df['Period'] = elementos_df['FECHAHORA'].dt.to_period('Q').astype(str)
-        aseos_df['Period'] = aseos_df['FECHAHORA'].dt.to_period('Q').astype(str)
+        elementos_df['Periodo'] = elementos_df['FECHAHORA'].dt.to_period('Q').astype(str)
+        aseos_df['Periodo'] = aseos_df['FECHAHORA'].dt.to_period('Q').astype(str)
     else:
-        elementos_df['Period'] = elementos_df['FECHAHORA'].dt.to_period('M').astype(str)
-        aseos_df['Period'] = aseos_df['FECHAHORA'].dt.to_period('M').astype(str)
+        elementos_df['Periodo'] = elementos_df['FECHAHORA'].dt.to_period('M').astype(str)
+        aseos_df['Periodo'] = aseos_df['FECHAHORA'].dt.to_period('M').astype(str)
 
     # Group by period and hospital unit
-    elementos_grouped = elementos_df.groupby(['Period', 'UNIDAD HOSP.'])['mean_cleanliness'].mean().reset_index()
-    aseos_grouped = aseos_df.groupby(['Period', 'UNIDAD HOSP.'])['mean_cleanliness'].mean().reset_index()
+    elementos_grouped = elementos_df.groupby(['Periodo', 'UNIDAD HOSP.'])['mean_cleanliness'].mean().reset_index()
+    aseos_grouped = aseos_df.groupby(['Periodo', 'UNIDAD HOSP.'])['mean_cleanliness'].mean().reset_index()
 
     # Determine the color palette
     colors = COLOR_PALETTES.get(color_palette, px.colors.qualitative.Plotly)
@@ -50,21 +50,21 @@ def plot_cleaning_by_hospital_unit(elementos_df, aseos_df, time_aggregation='mon
     if graph_type == 'Bar Chart':
         fig_elementos = px.bar(
             elementos_grouped,
-            x='Period',
+            x='Periodo',
             y='mean_cleanliness',
             color='UNIDAD HOSP.',
             barmode='group',
-            title='Mean Cleanliness per Hospital Unit (Elementos)',
+            title='Promedio de Limpieza por Unidad Hospitalaria (Elementos)',
             text='mean_cleanliness' if show_numbers else None,
             color_discrete_sequence=colors
         )
         fig_aseos = px.bar(
             aseos_grouped,
-            x='Period',
+            x='Periodo',
             y='mean_cleanliness',
             color='UNIDAD HOSP.',
             barmode='group',
-            title='Mean Cleanliness per Hospital Unit (Aseos)',
+            title='Promedio de Limpieza por Unidad Hospitalaria (Aseos)',
             text='mean_cleanliness' if show_numbers else None,
             color_discrete_sequence=colors
         )
@@ -77,19 +77,19 @@ def plot_cleaning_by_hospital_unit(elementos_df, aseos_df, time_aggregation='mon
     elif graph_type == 'Line Chart':
         fig_elementos = px.line(
             elementos_grouped,
-            x='Period',
+            x='Periodo',
             y='mean_cleanliness',
             color='UNIDAD HOSP.',
-            title='Mean Cleanliness per Hospital Unit (Elementos)',
+            title='Promedio de Limpieza por Unidad Hospitalaria (Elementos)',
             text='mean_cleanliness' if show_numbers else None,
             color_discrete_sequence=colors
         )
         fig_aseos = px.line(
             aseos_grouped,
-            x='Period',
+            x='Periodo',
             y='mean_cleanliness',
             color='UNIDAD HOSP.',
-            title='Mean Cleanliness per Hospital Unit (Aseos)',
+            title='Promedio de Limpieza por Unidad Hospitalaria (Aseos)',
             text='mean_cleanliness' if show_numbers else None,
             color_discrete_sequence=colors
         )
@@ -100,17 +100,17 @@ def plot_cleaning_by_hospital_unit(elementos_df, aseos_df, time_aggregation='mon
             fig_aseos.update_traces(texttemplate='%{text:.2f}', textposition='top center')
 
     else:
-        return "<p>Error: Unsupported graph type.</p>"
+        return "<p>Error: Tipo de gráfico no compatible.</p>"
 
     # Update x-axis layout for cleaner period display
     fig_elementos.update_layout(
-        xaxis_title='Period',
-        yaxis_title='Mean Cleanliness',
+        xaxis_title='Periodo',
+        yaxis_title='Promedio de Limpieza',
         xaxis={'type': 'category'},
     )
     fig_aseos.update_layout(
-        xaxis_title='Period',
-        yaxis_title='Mean Cleanliness',
+        xaxis_title='Periodo',
+        yaxis_title='Promedio de Limpieza',
         xaxis={'type': 'category'},
     )
 

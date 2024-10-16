@@ -16,7 +16,7 @@ def plot_cleaning_by_zone_and_room_type(elementos_df, aseos_df, time_aggregation
     required_columns = ['ZONA', 'TIPO SALA']
     for col in required_columns:
         if col not in elementos_df.columns or col not in aseos_df.columns:
-            return f"<p>Error: Column '{col}' not found in data.</p>"
+            return f"<p>Error: Columna '{col}' no encontrada en los datos.</p>"
 
     elementos_df['ZONA'] = elementos_df['ZONA'].astype(str)
     elementos_df['TIPO SALA'] = elementos_df['TIPO SALA'].astype(str)
@@ -38,7 +38,7 @@ def plot_cleaning_by_zone_and_room_type(elementos_df, aseos_df, time_aggregation
             y='mean_cleanliness',
             color='TIPO SALA',
             barmode='group',
-            title='Mean Cleanliness by Zone and Room Type (Elementos)',
+            title='Promedio de Limpieza por Zona y Tipo de Sala (Elementos)',
             text='mean_cleanliness' if show_numbers else None,
             color_discrete_sequence=colors
         )
@@ -49,7 +49,7 @@ def plot_cleaning_by_zone_and_room_type(elementos_df, aseos_df, time_aggregation
             y='mean_cleanliness',
             color='TIPO SALA',
             barmode='group',
-            title='Mean Cleanliness by Zone and Room Type (Aseos)',
+            title='Promedio de Limpieza por Zona y Tipo de Sala (Aseos)',
             text='mean_cleanliness' if show_numbers else None,
             color_discrete_sequence=colors
         )
@@ -65,7 +65,7 @@ def plot_cleaning_by_zone_and_room_type(elementos_df, aseos_df, time_aggregation
             x='ZONA',
             y='mean_cleanliness',
             color='TIPO SALA',
-            title='Mean Cleanliness by Zone and Room Type (Elementos)',
+            title='Promedio de Limpieza por Zona y Tipo de Sala (Elementos)',
             text='mean_cleanliness' if show_numbers else None,
             color_discrete_sequence=colors
         )
@@ -75,7 +75,7 @@ def plot_cleaning_by_zone_and_room_type(elementos_df, aseos_df, time_aggregation
             x='ZONA',
             y='mean_cleanliness',
             color='TIPO SALA',
-            title='Mean Cleanliness by Zone and Room Type (Aseos)',
+            title='Promedio de Limpieza por Zona y Tipo de Sala (Aseos)',
             text='mean_cleanliness' if show_numbers else None,
             color_discrete_sequence=colors
         )
@@ -86,17 +86,17 @@ def plot_cleaning_by_zone_and_room_type(elementos_df, aseos_df, time_aggregation
             fig_aseos.update_traces(texttemplate='%{text:.2f}', textposition='top center')
 
     else:
-        return "<p>Error: Unsupported graph type.</p>"
+        return "<p>Error: Tipo de gráfico no compatible.</p>"
 
     # Update x-axis layout for cleaner zone display
     fig_elementos.update_layout(
-        xaxis_title='Zone',
-        yaxis_title='Mean Cleanliness',
+        xaxis_title='Zona',
+        yaxis_title='Promedio de Limpieza',
         xaxis={'type': 'category'},
     )
     fig_aseos.update_layout(
-        xaxis_title='Zone',
-        yaxis_title='Mean Cleanliness',
+        xaxis_title='Zona',
+        yaxis_title='Promedio de Limpieza',
         xaxis={'type': 'category'},
     )
 

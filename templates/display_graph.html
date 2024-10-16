@@ -1,14 +1,16 @@
+<!-- templates/display_graph.html -->
+
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Generated Graph</title>
+    <title>Gráfico Generado</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
 </head>
 <body>
     <div class="graph-container">
-        <h2>Generated Graph</h2>
+        <h2>Gráfico Generado</h2>
         <div id="graph">
             {{ graph_html | safe }}
         </div>
@@ -17,25 +19,25 @@
             <input type="hidden" name="time_aggregation" value="{{ request.form.get('time_aggregation', 'monthly') }}">
             <input type="hidden" name="graph_type" value="{{ request.form.get('graph_type', 'Line Chart') }}">
             <input type="hidden" name="show_numbers" value="{{ not show_numbers }}">
-            <label for="color_palette">Color Palette:</label>
+            <label for="color_palette">Paleta de Colores:</label>
             <select name="color_palette">
                 <option value="Plotly" {% if color_palette == 'Plotly' %}selected{% endif %}>Plotly</option>
                 <option value="Viridis" {% if color_palette == 'Viridis' %}selected{% endif %}>Viridis</option>
                 <option value="Cividis" {% if color_palette == 'Cividis' %}selected{% endif %}>Cividis</option>
                 <option value="Pastel" {% if color_palette == 'Pastel' %}selected{% endif %}>Pastel</option>
-                <option value="Dark" {% if color_palette == 'Dark' %}selected{% endif %}>Dark</option>
-                <option value="Bold" {% if color_palette == 'Bold' %}selected{% endif %}>Bold</option>
+                <option value="Dark" {% if color_palette == 'Dark' %}selected{% endif %}>Oscuro</option>
+                <option value="Bold" {% if color_palette == 'Bold' %}selected{% endif %}>Intenso</option>
             </select>
             <button type="submit">
                 {% if show_numbers %}
-                    Hide Numbers on Graph
+                    Ocultar Números en el Gráfico
                 {% else %}
-                    Show Numbers on Graph
+                    Mostrar Números en el Gráfico
                 {% endif %}
             </button>
         </form>
         <a href="{{ url_for('select_graph') }}">
-            <button>Create Another Graph</button>
+            <button>Crear Otro Gráfico</button>
         </a>
     </div>
 </body>

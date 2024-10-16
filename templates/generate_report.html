@@ -3,13 +3,13 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h1 class="mt-5">Detailed Report</h1>
+<h1 class="mt-5">Informe Detallado</h1>
 <form method="POST">
     <div class="form-group">
-        <label for="date-range">Select Date Range:</label>
+        <label for="date-range">Seleccionar Rango de Fechas:</label>
         <input type="text" id="date-range" name="date_range" class="form-control">
     </div>
-    <button type="submit" class="btn btn-primary">Generate Report</button>
+    <button type="submit" class="btn btn-primary">Generar Informe</button>
 </form>
 
 {% for plot_url in plot_urls %}
