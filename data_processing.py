@@ -1,6 +1,7 @@
 # data_processing.py
 
 import pandas as pd
+import plotly.express as px
 
 def load_data(file_paths):
     elementos_data = []
@@ -57,3 +58,44 @@ def get_min_max_dates(elementos_df, aseos_df):
 
     return min_date.strftime('%Y-%m-%d'), max_date.strftime('%Y-%m-%d')
 
+
+def generate_overview_charts(elementos_df, aseos_df):
+    # Combine both dataframes
+    combined_df = pd.concat([elementos_df, aseos_df], ignore_index=True)
+
+    # Drop invalid FECHAHORA entries
+    combined_df['FECHAHORA'] = pd.to_datetime(combined_df['FECHAHORA'], errors='coerce')
+    combined_df = combined_df.dropna(subset=['FECHAHORA', 'UNIDAD HOSP.']).copy()
+
+    # Ensure 'UNIDAD HOSP.' is of type string
+    combined_df['UNIDAD HOSP.'] = combined_df['UNIDAD HOSP.'].astype(str)
+
+    # Group by 'UNIDAD HOSP.' to get the count of data points for each unit
+    unidad_counts = combined_df['UNIDAD HOSP.'].value_counts().reset_index()
+    unidad_counts.columns = ['UNIDAD HOSP.', 'Count']
+
+    # Generate Bar Chart
+    bar_fig = px.bar(
+        unidad_counts,
+        x='UNIDAD HOSP.',
+        y='Count',
+        title='Número de Puntos de Datos por Unidad Hospitalaria',
+        color='UNIDAD HOSP.',
+        text='Count',
+        color_discrete_sequence=px.colors.qualitative.Plotly
+    )
+    bar_fig.update_traces(texttemplate='%{text}', textposition='outside')
+
+    # Generate Pie Chart
+    pie_fig = px.pie(
+        unidad_counts,
+        names='UNIDAD HOSP.',
+        values='Count',
+        title='Proporción de Puntos de Datos por Unidad Hospitalaria',
+        color_discrete_sequence=px.colors.qualitative.Plotly
+    )
+
+    # Combine both charts into HTML
+    overview_html = bar_fig.to_html(full_html=False) + pie_fig.to_html(full_html=False)
+
+    return overview_html

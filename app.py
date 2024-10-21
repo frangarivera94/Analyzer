@@ -10,8 +10,9 @@ from plot_functions.plot_cleaning_by_zone_and_room_type import plot_cleaning_by_
 from plot_functions.plot_cleaning_by_elements_per_quarter import plot_cleaning_by_elements_per_quarter
 from plot_functions.plot_cleaning_by_hospital_unit import plot_cleaning_by_hospital_unit
 from datetime import datetime  # Add this import
-from data_processing import get_min_max_dates
+from data_processing import get_min_max_dates, generate_overview_charts
 import logging
+
 
 # Configure logging
 logging.basicConfig(
@@ -78,6 +79,9 @@ def select_graph():
     # Load the data from the uploaded files
     elementos_df, aseos_df = load_data(session['file_paths'])
 
+    # Generate overview charts
+    overview_html = generate_overview_charts(elementos_df, aseos_df)
+
     # Get min and max date
     min_date, max_date = get_min_max_dates(elementos_df, aseos_df)
 
@@ -115,7 +119,7 @@ def select_graph():
 
 
 
-    return render_template('select_graph.html', templates=templates.keys(), min_date=min_date, max_date=max_date)
+    return render_template('select_graph.html', templates=templates.keys(),  overview_html=overview_html, min_date=min_date, max_date=max_date)
 
 
 def generate_template_graph(template_name, elementos_df, aseos_df, time_aggregation, graph_type, show_numbers, color_palette):

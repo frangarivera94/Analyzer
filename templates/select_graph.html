@@ -18,6 +18,8 @@
         </select>
     </div>
 
+
+
     <!-- Agregación de Tiempo -->
     <div class="form-group">
         <label for="time_aggregation">Agregación Temporal:</label>
@@ -44,4 +46,28 @@
 
     <button type="submit" class="btn btn-primary">Generar Gráfico</button>
 </form>
+
+    <!-- Overview Section -->
+    <div class="graph-container">
+        <h2>Resumen de los Datos</h2>
+        <div>
+            {{ overview_html | safe }}
+        </div>
+    </div>
 {% endblock %}
+
+<style>
+  .graph-container {
+    width: 100%;
+    max-width: 1200px; /* Adjust max width if needed */
+    margin: 0 auto;
+    padding: 20px;
+    overflow-x: auto;  /* Allows horizontal scrolling if needed */
+  }
+
+  /* Optional: To ensure container adjusts to larger graphs */
+  iframe {
+    width: 100% !important;
+    height: 600px !important;  /* Increase height if graphs are being cut off */
+  }
+</style>
