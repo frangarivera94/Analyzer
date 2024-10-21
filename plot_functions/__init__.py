@@ -3,7 +3,7 @@
 # plot_functions/__init__.py
 
 from .plot_mean_cleanliness import plot_mean_cleanliness
-from .plot_cleaning_by_hospital import plot_cleaning_by_hospital
+from .plot_cleaning_by_hospital_unit_and_zone import plot_cleaning_by_hospital_unit_and_zone
 from .plot_cleaning_by_zone import plot_cleaning_by_zone
 from .plot_cleaning_by_zone_and_room_type import plot_cleaning_by_zone_and_room_type
 from .plot_cleaning_by_elements_per_quarter import plot_cleaning_by_elements_per_quarter

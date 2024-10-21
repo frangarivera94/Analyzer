@@ -1,44 +1,63 @@
-<!-- templates/display_graph.html -->
-
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gráfico Generado</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <title>Display Graph</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 </head>
 <body>
-    <div class="graph-container">
-        <h2>Gráfico Generado</h2>
-        <div id="graph">
+<div class="container mt-5">
+    <h1>Graph Display</h1>
+
+    <div class="row mt-4">
+        <div class="col">
+            <label for="start_date">Start Date:</label>
+            <input type="date" id="start_date" class="form-control" min="{{ min_date }}" max="{{ max_date }}" value="{{ min_date }}" required>
+        </div>
+        <div class="col">
+            <label for="end_date">End Date:</label>
+            <input type="date" id="end_date" class="form-control" min="{{ min_date }}" max="{{ max_date }}" value="{{ max_date }}" required>
+        </div>
+    </div>
+
+    <button id="update_graph" class="btn btn-primary mt-3">Update Graph</button>
+
+    <div class="mt-5">
+        <div id="graph_container">
             {{ graph_html | safe }}
         </div>
-        <form action="{{ url_for('toggle_numbers') }}" method="POST">
-            <input type="hidden" name="template" value="{{ request.form.get('template') }}">
-            <input type="hidden" name="time_aggregation" value="{{ request.form.get('time_aggregation', 'monthly') }}">
-            <input type="hidden" name="graph_type" value="{{ request.form.get('graph_type', 'Line Chart') }}">
-            <input type="hidden" name="show_numbers" value="{{ not show_numbers }}">
-            <label for="color_palette">Paleta de Colores:</label>
-            <select name="color_palette">
-                <option value="Plotly" {% if color_palette == 'Plotly' %}selected{% endif %}>Plotly</option>
-                <option value="Viridis" {% if color_palette == 'Viridis' %}selected{% endif %}>Viridis</option>
-                <option value="Cividis" {% if color_palette == 'Cividis' %}selected{% endif %}>Cividis</option>
-                <option value="Pastel" {% if color_palette == 'Pastel' %}selected{% endif %}>Pastel</option>
-                <option value="Dark" {% if color_palette == 'Dark' %}selected{% endif %}>Oscuro</option>
-                <option value="Bold" {% if color_palette == 'Bold' %}selected{% endif %}>Intenso</option>
-            </select>
-            <button type="submit">
-                {% if show_numbers %}
-                    Ocultar Números en el Gráfico
-                {% else %}
-                    Mostrar Números en el Gráfico
-                {% endif %}
-            </button>
-        </form>
-        <a href="{{ url_for('select_graph') }}">
-            <button>Crear Otro Gráfico</button>
-        </a>
     </div>
+</div>
+
+<script>
+    $('#update_graph').click(function() {
+        const startDate = $('#start_date').val();
+        const endDate = $('#end_date').val();
+
+        if (new Date(startDate) > new Date(endDate)) {
+            alert('Start date must be before end date.');
+            return;
+        }
+
+        $.ajax({
+            url: "{{ url_for('update_graph') }}",
+            type: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify({
+                start_date: startDate,
+                end_date: endDate,
+                graph_type: 'Line Chart'
+            }),
+            success: function(response) {
+                $('#graph_container').html(response.graph_html);
+            },
+            error: function(xhr, status, error) {
+                console.error('Error updating graph:', error);
+            }
+        });
+    });
+</script>
 </body>
 </html>
