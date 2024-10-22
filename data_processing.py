@@ -85,6 +85,7 @@ def generate_overview_charts(elementos_df, aseos_df):
         color_discrete_sequence=px.colors.qualitative.Plotly
     )
     bar_fig.update_traces(texttemplate='%{text}', textposition='outside')
+    bar_fig.update_layout(height=1000)
 
     # Generate Pie Chart
     pie_fig = px.pie(
